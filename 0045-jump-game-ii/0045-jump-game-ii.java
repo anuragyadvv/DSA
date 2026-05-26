@@ -1,23 +1,33 @@
 class Solution {
-    // tabulation 
+    // greedy+ bfs
     public int jump(int[] nums) {
         int n = nums.length;
-        int t[] = new int[n];
+        int totalJumps = 0;
+        int destination = n-1;
+        int  coverage = 0;
+        int lastJumpIdx = 0;
 
-        Arrays.fill(t,10001);
-
-       t[0]= 0; 
-    //    t[i] means jumps required to reach index i
-    for(int i=0;i<n;i++){
-        for(int j=1;j<=nums[i];j++){
-            if(j+i<n){
-                t[i+j]= Math.min(t[i+j],t[i]+1);
-            }
+        if(n==1){
+            return 0;
         }
-    }
 
-    return t[n-1];
+        for(int i=0;i<n;i++){
+            coverage = Math.max(coverage,i+nums[i]);
 
+            if(i==lastJumpIdx){
+                lastJumpIdx = coverage;
+                totalJumps++;
+
+                // check if we reached the destination alreday 
+                 if(coverage>=n-1){
+                return totalJumps;
+            }
+            }
+
+           
+        } 
+
+        return totalJumps;
         
     }
 }
