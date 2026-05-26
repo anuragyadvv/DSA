@@ -1,30 +1,23 @@
 class Solution {
-    // memoization
+    // tabulation 
     public int jump(int[] nums) {
         int n = nums.length;
-       int t[] = new int[n];
-       Arrays.fill(t,-1);
-       return  solve (nums,0,n,t);
-        
+        int t[] = new int[n];
+
+        Arrays.fill(t,10001);
+
+       t[0]= 0; 
+    //    t[i] means jumps required to reach index i
+    for(int i=0;i<n;i++){
+        for(int j=1;j<=nums[i];j++){
+            if(j+i<n){
+                t[i+j]= Math.min(t[i+j],t[i]+1);
+            }
+        }
     }
- 
-    public int solve(int nums[],int idx, int n,int t[]){
-        if(idx>=n-1){
-             return 0;
-        }
 
-        if(t[idx]!=-1){
-            return t[idx];
-        }
+    return t[n-1];
 
-        int minJump = 10001;
-
-        for(int i=1;i<=nums[idx];i++){
-            int jump = solve(nums,idx+i,n,t);
-            minJump = Math.min(minJump,jump+1);
-
-        }
-
-        return t[idx]= minJump;
+        
     }
 }
