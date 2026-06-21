@@ -1,4 +1,5 @@
 class Solution {
+    // using counting sort
     public int maxIceCream(int[] costs, int coins) {
         int n = costs.length;
         int count =0 ;
