@@ -9,9 +9,7 @@ class Solution {
          
          int counter = 1;
         for(int i=0;i<n;i++){
-            if(map.containsKey(copy[i])){
-                map.put(copy[i],map.get(copy[i]));
-            }else{
+            if(!map.containsKey(copy[i])){
                map.put(copy[i], counter);
           counter++;
             }
