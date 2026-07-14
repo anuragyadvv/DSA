@@ -1,4 +1,5 @@
 class Solution {
+    // using memoization
     int MOD = 1000000007;
     Integer t[][][] ;
     public int subsequencePairCount(int[] nums) {
