@@ -1,20 +1,29 @@
 class Solution {
+    // standard Approach(Pattern)- Use BFS  used in many question
     public List<Integer> sequentialDigits(int low, int high) {
-        List<Integer> ans = new ArrayList<>();
+        ArrayList<Integer>list = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=1;i<=8;i++){
+            q.add(i);
+        }
 
-        String s = "123456789";
-        String l = String.valueOf(low);
-        String h = String.valueOf(high);
+        while(!q.isEmpty()){
+            int num = q.remove();
 
-        for (int len = l.length(); len <= h.length(); len++) {
-            for (int start = 0; start <= 9 - len; start++) {
-                int num = Integer.parseInt(s.substring(start, start + len));
-                if (num >= low && num <= high) {
-                    ans.add(num);
-                }
+            if(num>=low && num<= high){
+                list.add(num);
+            }
+
+            if(num>high){
+                break;
+            }
+           
+            int lastDigit = num%10;
+            if(lastDigit+1<=9){
+                q.add((num*10)+(lastDigit+1));
             }
         }
 
-        return ans;
+        return list;
     }
 }
