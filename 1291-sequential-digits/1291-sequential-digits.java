@@ -14,9 +14,7 @@ class Solution {
                 list.add(num);
             }
 
-            if(num>high){
-                break;
-            }
+            
            
             int lastDigit = num%10;
             if(lastDigit+1<=9){
