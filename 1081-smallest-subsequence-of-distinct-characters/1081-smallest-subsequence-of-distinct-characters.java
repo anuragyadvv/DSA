@@ -1,32 +1,32 @@
 class Solution {
     public String smallestSubsequence(String s) {
-         int n = s.length();
-        StringBuilder result = new StringBuilder();
-        
-        boolean[] taken = new boolean[26];
-        int[] lastIndex = new int[26];
+        int n = s.length();
+        StringBuilder sb = new StringBuilder();
+        int lastIndex[] = new int[26];
         Arrays.fill(lastIndex, -1);
-        
-        for (int i = 0; i < n; i++) {
+        boolean taken[] = new boolean [26];
+
+        for(int i=0;i<n;i++){
             char ch = s.charAt(i);
-            lastIndex[ch - 'a'] = i;
+            int idx = ch-'a';
+            lastIndex[idx] = i;
         }
-        
-        for (int i = 0; i < n; i++) {
+
+        for(int i=0;i<n;i++){
             char ch = s.charAt(i);
-            int idx = ch - 'a';
-            
-            if (taken[idx]) continue;
-            
-            while (result.length() > 0 && ch < result.charAt(result.length() - 1) && lastIndex[result.charAt(result.length() - 1) - 'a'] > i) {
-                taken[result.charAt(result.length() - 1) - 'a'] = false;
-                result.deleteCharAt(result.length() - 1);
+            int idx = ch-'a';
+
+            if(taken[idx]==true) continue;
+
+            while(sb.length()>0 && sb.charAt(sb.length()-1)>ch && lastIndex[sb.charAt(sb.length()-1)-'a']>i){
+                taken[sb.charAt(sb.length()-1)-'a'] = false;
+                sb.deleteCharAt(sb.length()-1);
             }
-            
-            result.append(ch);
+
+            sb.append(ch);
             taken[idx] = true;
         }
+        return sb.toString();
         
-        return result.toString();
     }
 }
