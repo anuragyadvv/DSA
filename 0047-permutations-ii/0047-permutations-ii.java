@@ -16,14 +16,14 @@ class Solution {
     }
 
     public void solve(Map<Integer,Integer>map, List<Integer>list, List<List<Integer>> res, int n){
-
-
-        for(Integer key: map.keySet()){
-
-            if(list.size()==n){
+        //  base case
+           if(list.size()==n){
                 res.add(new ArrayList<>(list));
                 return;
             }
+
+
+        for(Integer key: map.keySet()){
 
             if(map.get(key)==0) continue;
 
