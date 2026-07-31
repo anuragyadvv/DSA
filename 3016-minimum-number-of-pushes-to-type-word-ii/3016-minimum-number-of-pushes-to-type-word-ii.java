@@ -1,64 +1,25 @@
 class Solution {
     public int minimumPushes(String word) {
-        int minPush =0;
-        int count =0;
+        // little more optimized
+        int minPush =0; 
+        int freq[] = new int[26];
 
-        Integer freq[] = new Integer[26];
-        Arrays.fill(freq,0);
-        
-        for(char ch: word.toCharArray()){
+        for(char ch : word.toCharArray()){
             freq[ch-'a']++;
         }
+        Arrays.sort(freq);
 
-        Arrays.sort(freq, Collections.reverseOrder());
+        for(int i=0;i<26;i++){
+            int count = freq[25-i]; // highest frequency first
+            if(count==0) break;   // break when frequency become 0 
+            // i = 0..7   -> multiplier is (0/8) + 1 = 1
+            // i = 8..15  -> multiplier is (8/8) + 1 = 2
+            // i = 16..23 -> multiplier is (16/8) + 1 = 3
+            // i = 24..25 -> multiplier is (24/8) + 1 = 4
 
-        for(int i=0; i<26; i++){
-            if(freq[i]!=0){
-                count++;
-            }else{
-                break;
-            }
-        }
+            int multiplier = (i/8)+1;
+            minPush += count*multiplier;
 
-        if(count<= 8){
-            for(int i=0;i<=7;i++){
-                minPush += freq[i];
-            }
-        }
-        else if(count>8 && count<=16){
-            for(int i=0;i<=7;i++){
-                minPush += freq[i];
-            }
-            for(int i=8 ;i<16;i++){
-                minPush += (2*freq[i]);
-            }
-        }
-
-        else if(count>16 && count<=24){
-             for(int i=0;i<=7;i++){
-                minPush += freq[i];
-            }
-            for(int i=8 ;i<16;i++){
-                minPush += (2*freq[i]);
-            }
-            for(int i=16;i<24;i++){
-                minPush += (3*freq[i]);
-            }
-        }
-        else{ // count>24 and count<=26
-            
-             for(int i=0;i<=7;i++){
-                minPush += freq[i];
-            }
-            for(int i=8 ;i<16;i++){
-                minPush += (2*freq[i]);
-            }
-            for(int i=16;i<24;i++){
-                minPush += (3*freq[i]);
-            }
-            for(int i=24;i<26;i++){
-                minPush += (4*freq[i]);
-            }
         }
 
         return minPush;
