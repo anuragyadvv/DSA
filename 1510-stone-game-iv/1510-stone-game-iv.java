@@ -1,30 +1,23 @@
 class Solution {
-    Boolean memo[];
+    // tabulation
     public boolean winnerSquareGame(int n) {
-        memo = new Boolean[n+1];
-        return solve( n);
+       boolean t[] = new boolean[n+1];
+
+    //    base case for i=0
+    t[0]= false;
+
+        for(int i=1;i<n+1;i++){
+            for(int j=1;j*j<=i;j++){
+
+                if(t[i-(j*j)]==false){
+                    t[i]=true;
+                    break;
+                }
+            }
+        }
+
+        return t[n];
        
         
-    }
-
-    public boolean solve(int n){
-        if(n==0){
-            return false;
-        }
-        if(n==1) return true;
-        int sqrt =(int)Math.sqrt(n);
-        if(sqrt*sqrt==n) return true;
-
-        if(memo[n]!=null) return memo[n];
-
-        for(int i=1;i*i<=n;i++){
-           
-        //if bob loses then alice wins 
-           if(solve(n-(i*i))==false){ // condition for bob looses 
-            return memo[n]= true;
-           }
-        }
-
-        return memo[n]= false;
     }
 }
