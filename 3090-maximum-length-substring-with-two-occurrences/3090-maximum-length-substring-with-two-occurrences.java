@@ -1,23 +1,25 @@
 class Solution {
-    //a little optimized  
+    //optimized  (similar to leetcode 3 (Longest substring without reptiting character)
     public int maximumLengthSubstring(String s) {
         int n = s.length();
         int maxLength = Integer.MIN_VALUE;
+         HashMap<Character,Integer> map = new HashMap<>();
        
+          int l=0;
+        for(int r=0;r<n;r++){
+            char key = s.charAt(r);
+            map.put(key, map.getOrDefault(key,0)+1);
 
-        for(int i=0;i<n;i++){
-             HashMap<Character,Integer> map = new HashMap<>();
-            for(int j=i;j<n;j++){
-                map.put(s.charAt(j),map.getOrDefault(s.charAt(j),0)+1);
-               
-               if(map.get(s.charAt(j))>2){
-                break;
-               }
+            while(map.get(key)>2){
+                char left = s.charAt(l);
+                map.put(left,map.get(left)-1);
+                l++;
+            }
 
-               maxLength = Math.max(maxLength,j-i+1);
+               maxLength = Math.max(maxLength,r-l+1);
         
             }
-        }
+        
 
         return maxLength;
 
