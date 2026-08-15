@@ -19,27 +19,42 @@ class Solution {
         
         // return ans;
 
+//    M2: prefixSum approach 
+        // int n = nums.length;
+        // int prefixSum[] = new int[n];
+        // prefixSum[0] = nums[0];
+        // int count =0;
 
+        // for(int i=1;i<n;i++){
+        //     prefixSum[i] = prefixSum[i-1]+nums[i];
+        // }
+
+        // for(int i=0;i<n;i++){
+        //     for(int j=i;j<n;j++){
+        //         int sum =(i==0)? prefixSum[j]: prefixSum[j]-prefixSum[i-1];
+
+        //         if(sum==k){
+        //             count++;
+        //         }
+        //     }
+        // }
+
+        // return count;
+
+
+        // m3 - brute force O(n2)
         int n = nums.length;
-        int prefixSum[] = new int[n];
-        prefixSum[0] = nums[0];
-        int count =0;
+       int count =0;
+       for(int i=0;i<n;i++){
+        int currSum =0;
+        for(int j=i;j<n;j++){
+            currSum += nums[j];
+            if(currSum==k) count++;
 
-        for(int i=1;i<n;i++){
-            prefixSum[i] = prefixSum[i-1]+nums[i];
         }
+       }
 
-        for(int i=0;i<n;i++){
-            for(int j=i;j<n;j++){
-                int sum =(i==0)? prefixSum[j]: prefixSum[j]-prefixSum[i-1];
-
-                if(sum==k){
-                    count++;
-                }
-            }
-        }
-
-        return count;
+       return count;
 
     }
 }
