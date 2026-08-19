@@ -1,32 +1,30 @@
 class Solution {
     public int maxNumberOfFamilies(int n, int[][] reservedSeats) {
-        Map<Integer, Set<Integer>> map = new HashMap<>();
+       // more space optimization using bit manipulation 
+       HashMap<Integer,Integer> map = new HashMap<>();
 
-        for(int reservedSeat[]: reservedSeats){
-            int row = reservedSeat[0];
-            int seat= reservedSeat[1];
-            map.computeIfAbsent(row, k->new HashSet<>()).add(seat);
-        }
+       for(int reservedSeat[]:reservedSeats){
+          int row = reservedSeat[0];
+          int seat = reservedSeat[1];
+          map.merge(row,(1<<seat),(a,b)-> a|b); // set bits are the booked bits 
+       } 
 
-        int result = (n-map.size())*2;
+       int result =(n-map.size())*2;
 
-        for(Map.Entry<Integer,Set<Integer>>entry:map.entrySet()){
-             Set<Integer> bookedSeats = entry.getValue();
+       int maskA = (1<<2)|(1<<3)|(1<<4)|(1<<5);//set bits are the ones I need empty for Group A
+       int maskB = (1<<4)|(1<<5)|(1<<6)|(1<<7);//set bits are the ones I need empty for Group B
+       int maskC = (1<<6)|(1<<7)|(1<<8)|(1<<9);//set bits are the ones I need empty for Group C 
 
-             boolean grpA = !bookedSeats.contains(2) && !bookedSeats.contains(3) && !bookedSeats.contains(4) && !bookedSeats.contains(5);
-              boolean grpB = !bookedSeats.contains(4) && !bookedSeats.contains(5) && !bookedSeats.contains(6) && !bookedSeats.contains(7);
-               boolean grpC = !bookedSeats.contains(6) && !bookedSeats.contains(7) && !bookedSeats.contains(8) && !bookedSeats.contains(9);
+       for(Map.Entry<Integer,Integer>entry: map.entrySet()){
+        int bookedSeatsMask = entry.getValue();
 
-               if(grpA && grpC){
-                result +=2;
-               }
+        boolean groupA = (bookedSeatsMask & maskA)==0;
+        boolean groupB = (bookedSeatsMask & maskB)==0;
+        boolean groupC = (bookedSeatsMask & maskC)==0;
 
-               else if(grpA || grpB || grpC){
-                result+=1;
-               }
-        }
-
-        return result;
-        
+        if(groupA && groupC) result +=2;
+        else if(groupA ||groupB || groupC) result +=1;
+       }
+       return result;  
     }
 }
