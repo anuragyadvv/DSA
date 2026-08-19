@@ -29,7 +29,7 @@ class Solution {
         // optimized (HashMap)
         // approach - treat 0 as -1 so the target sum will be zero and that subarray should have maxLength 
         int n = nums.length;
-        int maxLen = -1;
+        int maxLen = 0;
         HashMap<Integer,Integer> map = new HashMap<>(); // key = sum and value = index 
         int currSum =0;
         map.put(0,-1); // initially currSum is zero 
@@ -51,9 +51,7 @@ class Solution {
             }
         }
 
-        if(maxLen==-1){
-            return 0;
-        }
+       
 
         return maxLen;
 
