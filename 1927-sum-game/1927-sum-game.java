@@ -1,33 +1,40 @@
 class Solution {
     public boolean sumGame(String num) {
         int n= num.length();
-        int qDiff = 0;
-        int sumDiff =0;
+        int leftKnownSum =0;
+        int rightKnownSum = 0;
 
-        for(int i=0;i<n/2;i++){
-            char ch = num.charAt(i);
+        int leftQnMarkCount = 0;
+        int rightQnMarkCount = 0;
 
-            if(ch=='?'){
-                qDiff++;
-            }else{
-                sumDiff += (ch-'0');
+        for(int i=0;i<n;i++){
+            if(num.charAt(i)=='?'){
+                if(i<n/2){
+                    leftQnMarkCount++;
+                }else{
+                  rightQnMarkCount++;  
+                }
+            }
+            else{
+                if(i<n/2){
+                    leftKnownSum += num.charAt(i)-'0';
+                }
+                else{
+                    rightKnownSum += num.charAt(i)-'0';
+                }
             }
         }
 
-        for(int i=n/2 ;i<n;i++){
-            char ch = num.charAt(i);
-            if(ch=='?'){
-                qDiff--;
-            }else{
-                sumDiff -= (ch-'0');
-            }
+        int totalQnMarks = leftQnMarkCount + rightQnMarkCount;
+
+        if(totalQnMarks %2 != 0){ // odd then alice always win 
+            return true ;
         }
 
-        if(Math.abs(qDiff)%2 !=0){ // no of question mark is odd then alice always win because she will control the last move 
-            return true;
-        }
+        int Left = 2*leftKnownSum + 9*leftQnMarkCount;
+        int Right = 2*rightKnownSum + 9 *rightQnMarkCount;
 
-        return ((sumDiff*2) + (9*qDiff)) !=0;
+        return Left!=Right;  // Alice win 
         
     }
 }
