@@ -38,7 +38,7 @@ class Solution {
                 }
             }
 
-            if(nums[j]<nums[s.peek()]) j--;
+            else if(nums[j]<nums[s.peek()]) j--;
 
             
         }
