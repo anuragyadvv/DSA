@@ -29,7 +29,8 @@ class Solution {
         //  two pointers 
         int j= n-1 ;
         while(!s.isEmpty() && j>=0){
-            while(nums[j]>= nums[s.peek()]){
+
+            if(nums[j]>= nums[s.peek()]){
                 maxWidth = Math.max(maxWidth, (j-s.peek()));
                 s.pop();
                 if(s.isEmpty()){
