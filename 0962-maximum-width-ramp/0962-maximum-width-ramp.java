@@ -37,8 +37,7 @@ class Solution {
                     return maxWidth;
                 }
             }
-
-            else if(nums[j]<nums[s.peek()]) j--;
+            if(nums[j]<nums[s.peek()]) j--;
 
             
         }
