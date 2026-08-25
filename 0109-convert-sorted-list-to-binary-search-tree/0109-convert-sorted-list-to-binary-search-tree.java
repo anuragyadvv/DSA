@@ -24,41 +24,36 @@
  * }
  */
 class Solution {
-    // brute force 
-   
     public TreeNode sortedListToBST(ListNode head) {
 
-        if(head==null ){
+        if(head==null){
             return null;
         }
-       ArrayList<Integer> list = new ArrayList<>();
-       ListNode temp = head;
-       while(temp!= null){
-        list.add(temp.val);
-        temp = temp.next;
-       } 
+        if(head.next==null){
+            return new TreeNode(head.val);
+        }
 
-       int n = list.size();
+        // to find mid 
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode slow_prev = null;
 
-       TreeNode root = buildBST(list,0,n-1);
+        while(fast!=null && fast.next!=null){
+            slow_prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
 
-       return root;
-    }
+        // slow pointer will point to mid 
+        TreeNode root = new TreeNode(slow.val);
+       
+        slow_prev.next = null;
 
-    public TreeNode buildBST(ArrayList<Integer> list , int left, int right){
-          if(left> right){
-            return null;
-          }
+        root.left = sortedListToBST(head);
 
-          int mid = left +(right-left)/2;
-
-          TreeNode root = new TreeNode(list.get(mid));
-
-        //   recursively call for left and right subtree
-
-        root.left = buildBST(list,left,mid-1);
-        root.right = buildBST(list,mid+1,right);
+        root.right = sortedListToBST(slow.next);
 
         return root;
+        
     }
 }
