@@ -26,13 +26,16 @@ class Solution {
             return t[idx][target]; 
         }
 
+        int result =0;
+
         
-        int take = solve(nums , 0, target-nums[idx],n);
-        
-        int notTake = solve(nums,idx+1, target,n);
+        for(int i=idx ;i<n;i++){
+            int take_i = solve(nums,0,target-nums[i],n);
+            result += take_i;
+        }
 
         
 
-        return t[idx][target] = take+notTake;
+        return t[idx][target] = result;
     }
 }
