@@ -24,7 +24,6 @@ class Solution {
             temp = temp.next;
         }
 
-        boolean zeroSum = false;
 
       for(int i=0;i<list.size();i++){
         int currSum =0;
@@ -32,7 +31,7 @@ class Solution {
             currSum += list.get(j);
 
             if(currSum==0){
-               zeroSum = true;
+               
                for(int k=j; k>=i;k--){
                 list.remove(k);
                 
