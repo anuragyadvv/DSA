@@ -1,53 +1,46 @@
 class Solution {
+    String result= "";
     public String lexGreaterPermutation(String s, String target) {
-        int[] cnt = new int[26];
+          int count [] = new int[26];
+          for (char ch : s.toCharArray()){
+            count[ch-'a']++;
+          }
 
-        for (char ch : s.toCharArray()) {
-            cnt[ch - 'a']++;
-        }
+          StringBuilder sb = new StringBuilder();
+          solve(sb, count, target, 0, false);
 
-        for (char ch : target.toCharArray()) {
-            cnt[ch - 'a']--;
-        }
+          return result;
+    }
 
-        for (int i = target.length() - 1; i >= 0; i--) {
-            int cur = target.charAt(i) - 'a';
-            cnt[cur]++;
+    boolean solve(StringBuilder sb, int count[], String target, int i , boolean greater){
+           
+           if(i==target.length()){
 
-            boolean ok = true;
-            for (int x : cnt) {
-                if (x < 0) {
-                    ok = false;
-                    break;
-                }
+            if(greater){
+                result = sb.toString();
+                return true;
             }
+            return false;
+           } 
 
-            if (!ok) continue;
+           for(char ch ='a' ; ch<='z' ; ch++){
+              if(count[ch-'a']==0) continue;
 
-            int next = -1;
-            for (int c = cur + 1; c < 26; c++) {
-                if (cnt[c] > 0) {
-                    next = c;
-                    break;
-                }
-            }
+              if(greater==false && ch < target.charAt(i)) continue;
 
-            if (next == -1) continue;
+              sb.append(ch);
+              count[ch-'a']--;
 
-            cnt[next]--;
+              boolean isGreater = greater || ch>target.charAt(i); 
 
-            StringBuilder ans = new StringBuilder(target.substring(0, i));
-            ans.append((char) ('a' + next));
+              if(solve(sb, count,target,i+1, isGreater)){
+                return true;
+              }
 
-            for (int c = 0; c < 26; c++) {
-                while (cnt[c]-- > 0) {
-                    ans.append((char) ('a' + c));
-                }
-            }
+              sb.deleteCharAt(sb.length()-1);
+              count[ch-'a']++;
+           }
 
-            return ans.toString();
-        }
-
-        return "";
+           return false;
     }
 }
