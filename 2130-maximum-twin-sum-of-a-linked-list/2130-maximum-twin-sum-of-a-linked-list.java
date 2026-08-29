@@ -35,25 +35,64 @@ class Solution {
 
 
         //  approach 2- put all the nodes value in a stack then find stack size and do its half now iterate from first node and add the top of stack and this iteration will go till half size of stack  
-        Stack<Integer> s = new Stack<>();
+        // Stack<Integer> s = new Stack<>();
            
-           ListNode temp = head;
-        while(temp !=null){
-            s.push(temp.val);
-            temp= temp.next;
-        }
+        //    ListNode temp = head;
+        // while(temp !=null){
+        //     s.push(temp.val);
+        //     temp= temp.next;
+        // }
 
-        int halfSize = s.size()/2;
-        int res = 0; 
-        int i=0;
-        ListNode curr = head;
-         while(i<halfSize){
-            res = Math.max(res, (s.pop()+curr.val));
-            curr = curr.next;
-            i++;
-         } 
+        // int halfSize = s.size()/2;
+        // int res = 0; 
+        // int i=0;
+        // ListNode curr = head;
+        //  while(i<halfSize){
+        //     res = Math.max(res, (s.pop()+curr.val));
+        //     curr = curr.next;
+        //     i++;
+        //  } 
 
       
+        // return res;
+
+
+        // Approach -3 
+      
+
+    //   find mid node 
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(fast!=null && fast.next!=null){
+            slow= slow.next;
+            fast = fast.next.next;
+        }
+
+        // revrese second half
+        ListNode next; 
+        ListNode curr= slow;
+        ListNode prev = null;
+
+        while(curr!=null){
+            next = curr.next;
+            curr.next= prev;
+            prev = curr;
+            curr=next;
+        }
+        
+        int res= 0;
+        ListNode temp = head ;
+
+        while(prev!=null){
+          res = Math.max(res,(prev.val+temp.val));
+
+          prev = prev.next;
+          temp=temp.next;
+        }
+
         return res;
+
+
     }
 }
