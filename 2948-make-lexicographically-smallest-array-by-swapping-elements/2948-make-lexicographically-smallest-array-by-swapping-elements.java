@@ -1,37 +1,72 @@
 class Solution {
     public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+
+        // Brute force 
+        // int n = nums.length;
+
+        // for (int i = 0; i < n; i++) {
+
+        //     while (true) {
+
+        //         int smallVal = nums[i];
+        //         int idx = -1;
+        //         for (int j = i + 1; j < n; j++) {
+        //             if(Math.abs(nums[i]-nums[j])<=limit){
+        //                 if(nums[j]<smallVal){
+        //                     smallVal = nums[j];
+        //                     idx =j;
+        //                 }
+        //             }
+        //         }
+
+        //         if(idx!=-1){
+        //             int temp = nums[i];
+        //             nums[i] = nums[idx];
+        //             nums[idx] = temp; 
+        //         }else{
+        //             break;
+        //         }
+
+        //     }
+        // }
+
+        // return nums;
+
+
+        // optimized 
         int n = nums.length;
+        int vec[] = nums.clone();
 
-        int[] sorted = nums.clone();
-        Arrays.sort(sorted);
+        Arrays.sort(vec);
 
-        Map<Integer, List<Integer>> group = new HashMap<>();
-        Map<Integer, Integer> groupId = new HashMap<>();
-        Map<Integer, Integer> pos = new HashMap<>();
 
-        int id = 1;
-        group.computeIfAbsent(id, k -> new ArrayList<>()).add(sorted[0]);
-        groupId.put(sorted[0], id);
+        int groupNum =0;
+        Map<Integer,Integer> numToGroup  = new HashMap<>();
+        Map<Integer,LinkedList<Integer>> groupToList = new HashMap<>();
 
-        for(int i = 1; i < n; i++){
-            if(sorted[i] - sorted[i - 1] > limit){
-                id++;
-            }
+        numToGroup.put(vec[0],groupNum);
+        groupToList.putIfAbsent(groupNum, new LinkedList<>());
+        groupToList.get(groupNum).add(vec[0]);
 
-            group.computeIfAbsent(id, k -> new ArrayList<>()).add(sorted[i]);
-            groupId.put(sorted[i], id);
+        for(int i=1;i<n;i++){
+           if(Math.abs(vec[i]-vec[i-1])>limit) {
+            groupNum++;
+           }
+
+           numToGroup.put(vec[i],groupNum);
+           groupToList.putIfAbsent(groupNum, new LinkedList<>());
+           groupToList.get(groupNum).add(vec[i]);
         }
 
-        // Rebuild nums using the smallest
-        // available value from its group
-        for(int i = 0; i < n; i++){
-            int grp = groupId.get(nums[i]);
-            int p = pos.getOrDefault(grp, 0);
 
-            nums[i] = group.get(grp).get(p);
-            pos.put(grp, p + 1);
+        int result[] = new int[n];
+        for(int i=0;i<n;i++){
+            int num = nums[i]; // traversing on input array 
+            int group = numToGroup.get(num);
+            result[i] = groupToList.get(group).pollFirst(); //use and remove the smallest element 
         }
 
-        return nums;
+    return result;
+
     }
 }
