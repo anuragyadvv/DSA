@@ -58,36 +58,55 @@ class Solution {
 
         // Approach - 2(using stack only)
 
-        Stack<ListNode> s = new Stack<>();
-        ListNode curr = head;
+        // Stack<ListNode> s = new Stack<>();
+        // ListNode curr = head;
 
-        while(curr != null){
-            s.push(curr);
-            curr = curr.next;
+        // while(curr != null){
+        //     s.push(curr);
+        //     curr = curr.next;
+        // }
+
+        // curr = s.peek();
+        // s.pop();
+        // int maxNode = curr.val;
+
+        // ListNode resultHead = new ListNode(curr.val);
+
+        // while(!s.isEmpty()){
+        //     curr = s.peek();
+        //     s.pop();
+
+        //     if(curr.val< maxNode){
+        //         continue;
+        //     }
+        //     else{
+        //         ListNode newNode = new ListNode(curr.val);
+        //         newNode.next = resultHead;
+        //         resultHead = newNode;
+        //         maxNode = curr.val;
+        //     }
+        // }
+
+        // return resultHead;
+
+
+
+        // Appraoch -3(using recursion)
+
+        if(head==null || head.next == null){
+            return head;
         }
 
-        curr = s.peek();
-        s.pop();
-        int maxNode = curr.val;
+        ListNode nextNode = removeNodes(head.next);
 
-        ListNode resultHead = new ListNode(curr.val);
-
-        while(!s.isEmpty()){
-            curr = s.peek();
-            s.pop();
-
-            if(curr.val< maxNode){
-                continue;
-            }
-            else{
-                ListNode newNode = new ListNode(curr.val);
-                newNode.next = resultHead;
-                resultHead = newNode;
-                maxNode = curr.val;
-            }
+        if(head.val<nextNode.val){
+            return nextNode;
         }
 
-        return resultHead;
+        head.next = nextNode;
+        return head;
         
     }
+
+
 }
