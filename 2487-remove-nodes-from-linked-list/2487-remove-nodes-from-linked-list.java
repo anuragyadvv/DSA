@@ -93,18 +93,71 @@ class Solution {
 
         // Appraoch -3(using recursion)
 
-        if(head==null || head.next == null){
-            return head;
+        // if(head==null || head.next == null){
+        //     return head;
+        // }
+
+        // ListNode nextNode = removeNodes(head.next);
+
+        // if(head.val<nextNode.val){
+        //     return nextNode;
+        // }
+
+        // head.next = nextNode;
+        // return head;
+
+
+        // Approach - 4 (reverse the linkedlist )
+        
+        ListNode next;
+        ListNode curr = head;
+        ListNode prev = null;
+
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev= curr;
+            curr = next;
         }
 
-        ListNode nextNode = removeNodes(head.next);
+        // prev will point to head node of reversed LL
 
-        if(head.val<nextNode.val){
-            return nextNode;
-        }
+        head = prev;
+        prev = null;
+        int maxNode = -1;
+         curr = head;
 
-        head.next = nextNode;
-        return head;
+         while(curr!=null){
+            maxNode = Math.max(maxNode, curr.val);
+
+            if(curr.val<maxNode){
+                prev.next = curr.next;
+                curr = curr.next;
+            } else{
+                prev = curr;
+                curr = curr.next;
+            }
+         }
+
+
+        //  again reverse the list and return head;
+
+         curr = head;
+         prev = null;
+         ListNode next1;
+
+         while(curr!=null){
+            next1 = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next1;
+         }
+
+         return prev;
+
+
+
+
         
     }
 
