@@ -87,31 +87,56 @@ class Solution {
 
         // Approach - 3(without traversing from right to left )
 
-        ListNode curr = head;
-        ListNode prev = null;
+        // ListNode curr = head;
+        // ListNode prev = null;
          
-         while(curr != null){
-            int newVal = curr.val *2;
+        //  while(curr != null){
+        //     int newVal = curr.val *2;
 
-            if(newVal < 10){
-               curr.val = newVal;
-            }
-            else if(prev != null){
-                curr.val = newVal % 10;            
-                prev.val +=1;
-            }
-            else{ // prev is null means we are standing at head node 
-                ListNode newHead = new ListNode(1);
-                newHead.next = curr;
-                curr.val = newVal %10;
-                head = newHead;
-            }
+        //     if(newVal < 10){
+        //        curr.val = newVal;
+        //     }
+        //     else if(prev != null){
+        //         curr.val = newVal % 10;            
+        //         prev.val +=1;
+        //     }
+        //     else{ // prev is null means we are standing at head node 
+        //         ListNode newHead = new ListNode(1);
+        //         newHead.next = curr;
+        //         curr.val = newVal %10;
+        //         head = newHead;
+        //     }
 
-            prev = curr;
-            curr = curr.next;
+        //     prev = curr;
+        //     curr = curr.next;
+        //  }
+
+        //  return head;
+
+
+        //  approach -4 (similar to approach 3)
+         
+         if(head.val >=5){
+            ListNode  newHead = new ListNode(0);
+            newHead.next = head;
+            head = newHead;
          }
 
+         ListNode curr = head;
+
+         while(curr != null){
+            curr.val = (curr.val *2)% 10;
+
+            if( curr.next != null && curr.next.val>=5){
+                curr.val +=1;
+            }
+
+            curr = curr.next;   
+         }
+
+
          return head;
+
 
         
     }
