@@ -72,31 +72,62 @@ class Solution {
 
         // Approach - 2(using recursion)
 
-        int lastCarry = doubleUtil(head);
+        // int lastCarry = doubleUtil(head);
 
-        if(lastCarry >0){
-            ListNode newNode = new ListNode(lastCarry);
-            newNode.next = head;
-            head = newNode;
-        }
+        // if(lastCarry >0){
+        //     ListNode newNode = new ListNode(lastCarry);
+        //     newNode.next = head;
+        //     head = newNode;
+        // }
 
-        return head;
+        // return head;
+
+
+
+
+        // Approach - 3(without traversing from right to left )
+
+        ListNode curr = head;
+        ListNode prev = null;
+         
+         while(curr != null){
+            int newVal = curr.val *2;
+
+            if(newVal < 10){
+               curr.val = newVal;
+            }
+            else if(prev != null){
+                curr.val = newVal % 10;            
+                prev.val +=1;
+            }
+            else{ // prev is null means we are standing at head node 
+                ListNode newHead = new ListNode(1);
+                newHead.next = curr;
+                curr.val = newVal %10;
+                head = newHead;
+            }
+
+            prev = curr;
+            curr = curr.next;
+         }
+
+         return head;
 
         
     }
  
-     public int doubleUtil(ListNode head){
+    //  public int doubleUtil(ListNode head){
         
-        if(head==null) return 0;
+    //     if(head==null) return 0;
 
-        int carry = doubleUtil(head.next);
-        int newVal = head.val *2 + carry;
+    //     int carry = doubleUtil(head.next);
+    //     int newVal = head.val *2 + carry;
 
-        head.val = newVal %10;
+    //     head.val = newVal %10;
 
 
-        return newVal/10; // return carry
-     }
+    //     return newVal/10; // return carry
+    //  }
 
 
 }
