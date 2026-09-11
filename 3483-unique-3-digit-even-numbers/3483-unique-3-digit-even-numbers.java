@@ -17,9 +17,9 @@ class Solution {
                     num = num*10 + digits[j];
                     num = num*10 + digits[k];
 
-                    int len = getLen(num);
+                    
 
-                    if(num%2 ==0  && len ==3){
+                    if(num%2 ==0  && num>= 100){
                         set.add(num);
                     }
 
@@ -31,8 +31,40 @@ class Solution {
         }
 
         return set.size();
+
+
+        // m-2 
+
+        // HashSet<Integer> set = new HashSet<>();
+        // int n= digits.length;
+        // int k=3;
+
+        // solve(0,digits,set,k,n, 0);
+
+        // return set.size();
         
     }
+
+    public void solve(int start, int digits[], HashSet<Integer>set, int k, int n, int num){
+
+        if(start>= n || getLen(num)==k ){
+            if(num %2 ==0  && getLen(num)==k){
+                set.add(num);
+                return;
+            }
+        }
+
+        for(int i=0 ; i<n;i++){
+            num = num*10 + digits[i];
+            solve(i+1,digits,set,k,n,num);
+            num = num/10;
+            solve(i+1,digits,set,k,n,num);
+        }
+
+    }
+
+
+
 
     public int getLen(int num ){
         int l = 0;
