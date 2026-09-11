@@ -1,6 +1,7 @@
 class Solution {
     public int totalNumbers(int[] digits) {
         // Brute force 
+
         // Set<Integer> set = new HashSet<>();
         // int n = digits.length;
         // int num =0;
@@ -33,14 +34,53 @@ class Solution {
         // return set.size();
 
 
-        // m-2 
+        // m2- more optimized 
+        int n = digits.length;
 
         Set<Integer> set = new HashSet<>();
-        boolean[] visited = new boolean[digits.length];
+        HashMap<Integer,Integer> map = new HashMap<>();
 
-        solve(digits, visited, set, 0, 0);
+        for(int i=0;i<n;i++){
+            map.put(digits[i], map.getOrDefault(digits[i],0)+1);
+        }
+
+        for(int i=1;i<=9;i++){
+            if (map.getOrDefault(i, 0) == 0) continue;
+            map.put(i, map.get(i)-1);
+            
+            for(int j=0; j<=9 ;j++){
+                if (map.getOrDefault(j, 0) == 0) continue;
+                map.put(j, map.get(j)-1);
+
+                for(int k=0;k<=8; k=k+2){
+                    if (map.getOrDefault(k, 0) == 0) continue;
+                    map.put(k, map.get(k)-1);
+
+                    int num = (i*100)+(j*10)+(k);
+                    set.add(num);
+
+                    map.put(k, map.getOrDefault(k,0)+1);
+                }
+              map.put(j, map.getOrDefault(j,0)+1);  
+            }
+
+            map.put(i, map.getOrDefault(i,0)+1);
+        }
 
         return set.size();
+
+
+
+
+
+        // m-3(using bactracking )
+
+        // Set<Integer> set = new HashSet<>();
+        // boolean[] visited = new boolean[digits.length];
+
+        // solve(digits, visited, set, 0, 0);
+
+        // return set.size();
         
     }
 
