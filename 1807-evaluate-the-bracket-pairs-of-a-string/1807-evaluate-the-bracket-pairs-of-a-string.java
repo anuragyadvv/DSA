@@ -1,7 +1,7 @@
 class Solution {
     public String evaluate(String s, List<List<String>> knowledge) {
 
-        // Brute Force 
+        // Brute Force (Stack approach) Approach - first put all the key value pair in a map for easy access then iterate on string and  push all the characters of string in stack until  a closing bracket is encountered , Once a closing brcket is encountered make a StringBuilder sb and pop from stack and add to stringbuilder until an opening bracket is encountered once an opening brcaket is encountered come out of loop and again pop to remove the opening bracket from the stack , Now reverse the stringbuilder and convert it to string naming it key and now check if the map contains that key if it contains the key then find value of that key and push each character of that value String in the stack , And if the key does not exist in the map then push a '?' in the stack  , Now after iterating the whole string come out of the first for loop and now store all the charcters of the stack in a stringbuilder result , then reverse the stringbuilder and convert it to string and return it . 
         
         int n = s.length();
 
