@@ -18,7 +18,8 @@ class Solution {
                 while (!st.isEmpty() && st.peek() != '(') {
                     sb.append(st.pop());
                 }
-                st.pop();
+                st.pop();  // remove that opening bracket also corresponding to above closing bracket 
+
                 for (int j = 0; j < sb.length(); j++) {
                     st.push(sb.charAt(j));
                 }
