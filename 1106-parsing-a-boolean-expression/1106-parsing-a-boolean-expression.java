@@ -1,5 +1,8 @@
 class Solution {
     public boolean parseBoolExpr(String expression) {
+
+        // Approach - put all the characters int the stack till a closing bracket is encountered once a closing bracket is encountered then pop from the stack and add it in a set  till you encounter an opening bracket after coming out of while loop again pop to remove the opening bracket then again pop to get the operator and evaluate the expression based on operator 
+         
         Stack<Character> st = new Stack<>();
         int n = expression.length();
 
