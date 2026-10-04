@@ -1,51 +1,47 @@
 class Solution {
     public boolean checkValidString(String s) {
+
+        // Recursion and memoization 
         int n = s.length();
+        int t[][] = new int[n][n];
 
-        int open =0;
-        int close =0;
-        int star =0;
-
-//  left to right traversal 
-        for(int i=0;i<n;i++){
-            if(s.charAt(i)=='('){
-                open++;
-            }else if(s.charAt(i)=='*'){
-                star++;
-            }
-            else{ // closing bracket 
-              close++;
-
-              if(close>open+star){
-                return false;
-              }
-
-            }
+        for(int arr[]: t){
+            Arrays.fill(arr,-1);
         }
-
-
-        open =0;
-        close =0;
-        star=0;
-    // right to left traversal 
-        for(int i=n-1;i>=0;i--){
-            if(s.charAt(i)==')'){
-                close++;
-            }else if(s.charAt(i)=='*'){
-                star++;
-            }
-            else{ // opening bracket 
-            open++;
-            if(open>close+star){
-                return false;
-            }
-
-            }
-        }
-
-       
-
-        return true;
+        return solve(s,0,0,t);
         
+    }
+
+    public boolean solve(String s,int i, int open, int t[][]){
+
+        if(i>=s.length()){
+            if(open==0){
+                return true;
+            }
+            return false;
+        }
+
+        if(t[i][open] != -1){
+            return t[i][open]==1;
+        }
+
+        boolean isValid = false;
+
+        if(s.charAt(i)=='('){
+            isValid = solve(s,i+1,open+1,t);
+        }
+        else if(s.charAt(i)=='*'){
+            isValid |= solve(s,i+1,open+1,t);
+            isValid |= solve(s,i+1,open,t);
+            if(open>0){
+                isValid |= solve(s,i+1,open-1,t);
+            }
+        }
+        else if(open>0){
+            isValid |= solve(s,i+1,open-1,t);
+        }
+
+         t[i][open] = isValid? 1:0;
+         return isValid;
     }
 }
