@@ -15,20 +15,30 @@ class Solution {
 
         // return st.size();
 
-        Stack<Character> st = new Stack<>();
+
+        // Approach -2(constant memory) - when opening bracket is encountered then increase the size by 1 and when closing bracket is encountered and size is grater than zero than decrease the size by 1 (valid pair) and if closing bracket is encountered and size is 0 then increase the count of open by 1  at last return size+open
+
         int n = s.length();
+        int size =0;
+        int open =0;
 
         for(int i=0;i<n;i++){
 
-            if(!st.isEmpty() && st.peek()=='(' && s.charAt(i)==')'){
-                st.pop();
+            if(s.charAt(i)=='('){
+                size++;
             }
-            else{
-                st.push(s.charAt(i));
+            else{ // closing bracket 
+
+                if(size>0){
+                    size--;
+                }else{ // when closing bracket is encountered and size=0
+                    open++;
+                }
             }
         }
 
-        return st.size();
+        return size+open;
+
         
     }
 }
