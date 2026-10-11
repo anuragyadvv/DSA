@@ -1,27 +1,19 @@
 class Solution {
     public int sumOfSquares(int[] nums) {
-
         int n = nums.length;
-        List<Integer> list = new ArrayList<>();
-        int totalSquareSum =0;
+        int x =0;
+        int sum =0;
 
-        for(int i=1;i<=n;i++){
-            if(n%i==0){
-                list.add(i);
+        for(int i=0;i<n;i++){
+
+            x= i+1;
+
+            if(n%x==0){
+                sum += (nums[i]*nums[i]);
             }
         }
 
-
-        for(int idx : list){
-
-            int num = nums[idx-1];
-
-            totalSquareSum += (num*num);
-        }
-
-        return totalSquareSum;
-
-      
+        return sum;
         
     }
 }
