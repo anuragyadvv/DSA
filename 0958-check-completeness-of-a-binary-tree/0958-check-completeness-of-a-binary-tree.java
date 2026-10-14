@@ -15,31 +15,37 @@
  */
 class Solution {
     public boolean isCompleteTree(TreeNode root) {
-         boolean seenPast = false;
-         Queue<TreeNode> q = new LinkedList<>();
 
-         q.add(root);
+        int totalNodes = countNodes(root);
+         
+         int i=1;
 
-         while(!q.isEmpty()){
-
-            TreeNode node = q.remove();
-
-            if(node !=null){
-                if(seenPast==true){
-                    return false;
-                }
-            }
-            if(node ==null){
-                seenPast = true;
-                continue;
-            }
-
-            q.add(node.left);
-            q.add(node.right);
-
-         }
-
-         return true;
+        return dfs(root,i, totalNodes);
         
+    }
+
+    public boolean dfs(TreeNode root, int i, int totalNodes){
+        if(root==null){
+            return true;
+        }
+
+        if(i>totalNodes){
+            return false;
+        }
+
+        return dfs(root.left, 2*i, totalNodes) &&  dfs(root.right, 2*i+1, totalNodes);
+    }
+
+    public int countNodes(TreeNode root){
+
+        if(root==null){
+            return 0;
+
+        }
+
+        int leftCount = countNodes(root.left);
+        int rightCount = countNodes(root.right);
+
+        return leftCount+rightCount+1;
     }
 }
