@@ -1,29 +1,63 @@
 class Solution {
     public int minSwaps(int[] nums) {
-        int n = nums.length;
-        long[] keyed = new long[n];  // digit sum in the high bits, value in the low bits
-        for (int i = 0; i < n; i++) keyed[i] = (long) digitSum(nums[i]) << 32 | nums[i];
-        Arrays.sort(keyed);
-        Map<Integer, Integer> rank = new HashMap<>();  // final position of each value
-        for (int k = 0; k < n; k++) rank.put((int) keyed[k], k);
-        int[] home = new int[n];  // where the value at each position must go
-        for (int i = 0; i < n; i++) home[i] = rank.get(nums[i]);
 
-        int swaps = 0;
-        for (int i = 0; i < n; i++) {
-            while (home[i] != i) {  // send the value at i home, take that spot's value in exchange
-                int j = home[i];
-                home[i] = home[j];
-                home[j] = j;
-                swaps++;
-            }
+        int n = nums.length;
+        Integer sorted[] = new Integer[n];
+
+        for(int i=0;i<n;i++){
+            sorted[i] = nums[i];
         }
-        return swaps;
+
+        // custom sorting 
+        Arrays.sort(sorted,this::compareByDigitSum);
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i=0;i<n;i++){
+            map.put(nums[i],i);
+        }
+
+        int swapCount =0;
+
+        for(int i=0;i<n;i++){
+            int expectedVal = sorted[i];
+            int currVal = nums[i];
+
+            if(expectedVal ==currVal) continue;
+
+            int idx = map.get(expectedVal);
+
+            nums[i] = expectedVal;
+            nums[idx] = currVal;
+
+            map.put(expectedVal,i);
+            map.put(currVal,idx);
+
+            swapCount++;
+        }
+
+        return swapCount;
+
+        
     }
 
-    private int digitSum(int x) {
-        int s = 0;
-        for (; x > 0; x /= 10) s += x % 10;
-        return s;
+    public int compareByDigitSum(int num1, int num2){
+        int num1DigitSum = getDigitSum(num1);
+        int num2DigitSum = getDigitSum(num2);
+
+        if(num1DigitSum != num2DigitSum){
+            return Integer.compare(num1DigitSum,num2DigitSum);
+        }
+
+        return Integer.compare(num1,num2);
+    }
+
+    public int getDigitSum(int num){
+        int sum =0;
+        while(num>0){
+            sum += (num%10);
+            num /= 10;
+        }
+
+        return sum;
     }
 }
