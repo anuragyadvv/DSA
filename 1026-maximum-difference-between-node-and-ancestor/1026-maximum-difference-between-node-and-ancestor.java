@@ -14,33 +14,27 @@
  * }
  */
 class Solution {
-    int maxDiff;
     public int maxAncestorDiff(TreeNode root) {
-        maxDiff =-1;
 
-        findMaxDiff(root);
-        return maxDiff;
+        int maxV = Integer.MIN_VALUE;
+        int minV = Integer.MAX_VALUE;
 
+        return solve(root, maxV, minV);
+        
     }
 
-    public void findMaxDiff(TreeNode root){
+    public int solve(TreeNode root, int maxV, int minV){
 
-        if(root==null) return ;
+        if(root==null){ //as we go after leaf node
+            return Math.abs(maxV-minV);
+        }
 
-        findMaxDiffUtil(root, root.left);
-        findMaxDiffUtil(root, root.right);
+        maxV = Math.max(maxV,root.val);
+        minV = Math.min(minV, root.val);
 
-        findMaxDiff(root.left);
-        findMaxDiff(root.right);
-    }
+        int left = solve(root.left,maxV,minV);
+        int right = solve(root.right,maxV, minV);
 
-    public void findMaxDiffUtil(TreeNode root, TreeNode child){
-
-        if(root==null || child==null) return ; 
-
-        maxDiff = Math.max(maxDiff,Math.abs(root.val-child.val));
-
-        findMaxDiffUtil(root, child.left);
-        findMaxDiffUtil(root, child.right);
+        return Math.max(left,right);
     }
 }
