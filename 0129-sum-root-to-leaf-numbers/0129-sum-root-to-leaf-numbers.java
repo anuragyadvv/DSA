@@ -15,37 +15,27 @@
  */
 class Solution {
     public int sumNumbers(TreeNode root) {
-        List<String> list = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        solve(root, list, sb);
-
-        int ans = 0;
-        for(String str : list){
-            ans += Integer.parseInt(str);
-        }
-
-        return ans;
         
+        return solve(root, 0);
     }
 
-    public void solve(TreeNode root, List<String> list , StringBuilder sb){
+    public int solve(TreeNode root, int curr){
 
         if(root==null){
-            return;
+            return 0;
         }
 
-        sb.append(root.val);
-
-        if(root.left ==null && root.right ==null){
-            list.add(sb.toString());
-           
+        curr = curr*10 + root.val;
+       
+    //leaf node(we found a root to leaf path  )    
+        if(root.left==null && root.right==null){
+            return curr;
         }
 
-        solve(root.left, list, sb);
-        solve(root.right, list, sb);
+        int l = solve(root.left,curr);
+        int r = solve(root.right, curr);
 
-        sb.deleteCharAt(sb.length()-1);
+        return l+r;
 
-        
     }
 }
