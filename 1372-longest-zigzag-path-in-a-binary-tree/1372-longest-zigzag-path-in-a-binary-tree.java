@@ -18,8 +18,12 @@ class Solution {
     public int longestZigZag(TreeNode root) {
         
         //  we will try both the possibility of left and right 
-        solve(root, 0, true, false); // goLeft
-        solve(root, 0, false, true); // goRight
+        // solve(root, 0, true, false); // goLeft
+        // solve(root, 0, false, true); // goRight
+
+        // Approach - 2 
+
+        solve(root,0,0);
 
 
         return maxPath;
@@ -42,5 +46,16 @@ class Solution {
             solve(root.left, 1, false, true);  // new path starts so next time go right because taken left this time 
         }
 
+    }
+
+    public void solve(TreeNode root, int l , int r){
+        if(root==null) return ;
+
+        maxPath = Math.max(maxPath, Math.max(l,r));
+
+        // left jaa rha 
+        solve(root.left,r+1,0);
+        // right jaa rha 
+        solve(root.right, 0, l+1);
     }
 }
