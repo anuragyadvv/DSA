@@ -1,44 +1,49 @@
-import java.util.LinkedList;
-import java.util.Queue;
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
     public int maxLevelSum(TreeNode root) {
-        if (root == null) return 0;
 
-        Queue<TreeNode> q = new LinkedList<>();
-        q.offer(root);
+        // Approach - 2(using dfs )
+         TreeMap<Integer, Integer> map = new TreeMap<>();
 
-        int maxLevel = 1;
-        long maxSum = Long.MIN_VALUE; // Handles negative node values properly
-        int currentLevel = 1;
+         dfs(root, 1, map);
 
-        while (!q.isEmpty()) {
-            int size = q.size();
-            long currentLevelSum = 0;
+         int maxLevel = 0;
+         int maxSum =Integer.MIN_VALUE;
 
-            for (int i = 0; i < size; i++) {
-                TreeNode curr = q.poll();
-                currentLevelSum += curr.val;
+         for(Integer key : map.keySet()){
+             if(maxSum< map.get(key)){
+                maxSum = map.get(key);
+                maxLevel = key;
+             }
+         }
 
-                if (curr.left != null) {
-                    q.offer(curr.left);
-                }
-                if (curr.right != null) {
-                    q.offer(curr.right);
-                }
-            }
+         return maxLevel;
+        
+    }
 
-            // Update max sum and level. 
-            // Using strict inequality (>) ensures that in case of a tie, 
-            // the *smallest* level number is kept because we visit levels top-down.
-            if (currentLevelSum > maxSum) {
-                maxSum = currentLevelSum;
-                maxLevel = currentLevel;
-            }
+    public void dfs(TreeNode root, int level, TreeMap<Integer,Integer> map){
 
-            currentLevel++;
+        if(root==null){
+            return;
         }
 
-        return maxLevel;
+        map.put(level, map.getOrDefault(level,0)+root.val);
+
+        dfs(root.left,level+1,map);
+        dfs(root.right,level+1, map);
     }
 }
