@@ -1,22 +1,57 @@
 class Solution {
     public int[] countServers(int n, int[][] logs, int x, int[] queries) {
-        int[][] reqs = Arrays.copyOf(logs, logs.length + 1);
-        reqs[logs.length] = new int[] {0, Integer.MAX_VALUE};  // sentinel: no window ever reaches it
-        Arrays.sort(reqs, 0, logs.length, Comparator.comparingInt(r -> r[1]));  // by time, the sentinel stays last
-        Integer[] order = new Integer[queries.length];
-        Arrays.setAll(order, i -> i);
-        Arrays.sort(order, Comparator.comparingInt(i -> queries[i]));  // query positions in time order
+        int m = logs.length;
+         // Sort logs by time (index 1)
+        Arrays.sort(logs,(a,b)->a[1]-b[1]);
 
-        int[] cnt = new int[n + 1], ans = new int[queries.length];  // cnt: requests per server inside the window [q - x, q]
-        int busy = 0, lo = 0, hi = 0;  // busy: servers with at least one request in it
-        for (int i : order) {
-            int q = queries[i];
-            for (; reqs[hi][1] <= q; hi++)  // requests up to q come in
-                if (cnt[reqs[hi][0]]++ == 0) busy++;
-            for (; reqs[lo][1] < q - x; lo++)  // requests before q - x go out
-                if (--cnt[reqs[lo][0]] == 0) busy--;
-            ans[i] = n - busy;
+        int q = queries.length;
+        int timeIndex[][] = new int[q][2]; // {time, original index}
+
+        for(int i=0;i<q;i++){
+            timeIndex[i][0] = queries[i];
+            timeIndex[i][1] = i;
         }
-        return ans;
+        
+           // Sort timeIndex by time
+        Arrays.sort(timeIndex,(a,b)-> a[0]-b[0]);
+
+        Map<Integer,Integer> map = new HashMap<>();
+        int result[] = new int[q];
+
+        // sliding window(two pointers )
+        int i=0;
+        int j=0;
+
+        for(int[] pair: timeIndex){
+            int curTime = pair[0];
+            int idx = pair[1];
+
+            int start = curTime -x;
+            int end = curTime;
+
+            // Right expand: time <= end
+            while(j<m && logs[j][1]<=end){
+                int serverId = logs[j][0];
+                map.put(serverId, map.getOrDefault(serverId,0)+1);
+                j++;
+            }
+
+            // Left shrink: time < start
+            while(i<m && logs[i][1]< start){
+                int serverId = logs[i][0];
+
+                map.put(serverId, map.get(serverId)-1);
+                if(map.get(serverId)==0){
+                    map.remove(serverId);
+                }
+                i++;
+            }
+
+
+            result[idx] = n - map.size();
+        }
+
+        return result;
+        
     }
 }
