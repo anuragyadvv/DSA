@@ -14,29 +14,50 @@
  * }
  */
 class Solution {
-    int count;
-    public int averageOfSubtree(TreeNode root) {
-        count =0;
 
-        solve(root);
-        return count;
+    int totalCount  ;
+    public int averageOfSubtree(TreeNode root) {
+
+        totalCount = 0;
+
+         solve(root);
+
+        return totalCount;
     }
 
-    public int[] solve(TreeNode root){
-        if(root==null){
-            return new int[]{0,0};
-        }
+    public void solve(TreeNode root){
 
-        int [] left = solve(root.left);
-        int [] right = solve(root.right);
-        
-        int totalSum = root.val+left[0]+right[0];
-        int totalNodes = 1+left[1]+right[1];
-        
-        if((totalSum/totalNodes) == root.val){
-            count++;
-        }
+        if(root==null) return ;
 
-        return new int[]{totalSum, totalNodes};
+        int sum = findSum(root);
+        int count = findCount(root);
+    
+
+        if((sum/count)==root.val) totalCount++;
+
+        solve(root.left);
+        solve(root.right);
+    }
+
+    public int findSum(TreeNode root){
+         
+         if(root==null){
+            return 0;
+         }
+
+         int leftSum = findSum(root.left);
+         int rightSum = findSum(root.right);
+
+         return leftSum + rightSum + root.val;
+    }
+
+    public int findCount(TreeNode root){
+
+        if(root==null) return 0;
+
+        int leftCount = findCount(root.left);
+        int rightCount = findCount(root.right);
+
+        return leftCount + rightCount+1;
     }
 }
