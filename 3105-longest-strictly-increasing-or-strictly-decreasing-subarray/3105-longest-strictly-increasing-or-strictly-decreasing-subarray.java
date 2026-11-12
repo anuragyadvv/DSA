@@ -4,33 +4,30 @@ class Solution {
         int len = 1;
 
         for(int i=0;i<n;i++){
-            for(int j=i;j<n;j++){
 
+            boolean isInc = true;
+            boolean isDec = true;
+            for(int j=i+1;j<n;j++){
 
-                boolean isInc =  true;
-                for(int k=i;k<j;k++){
-                    if(nums[k]>=nums[k+1]){
-                        isInc = false;
-                        break;
-                    }
+                if(nums[j]>nums[j-1]){
+                    isDec =false;
+                }
+                else if(nums[j]<nums[j-1]){
+                    isInc = false;
+                }
+                else{
+                    isInc = false;
+                    isDec = false;
                 }
 
-                if(isInc){
-                    len = Math.max(len,(j-i+1));
+                if(isInc == false && isDec == false){
+                    break;
                 }
 
-                boolean isDec = true;
-
-                 for(int k=i;k<j;k++){
-                    if(nums[k]<=nums[k+1]){
-                        isDec = false;
-                        break;
-                    }
+                if(isInc || isDec){
+                    len = Math.max(len, j-i+1);
                 }
-
-                if(isDec){
-                    len = Math.max(len,(j-i+1));
-                }
+             
             }
         }
 
