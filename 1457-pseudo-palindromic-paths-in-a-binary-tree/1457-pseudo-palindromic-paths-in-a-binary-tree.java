@@ -14,44 +14,38 @@
  * }
  */
 class Solution {
-
+//     Approach -2 (using bit manipulation)
     int count ;
     public int pseudoPalindromicPaths (TreeNode root) {
 
         count =0;
-        int[] freq= new int[10];
+        
 
-        solve(root, freq);
+        solve(root, 0);
 
         return count;
 
         
     }
 
-    public void solve(TreeNode root, int freq[]){
+    public void solve(TreeNode root, int val){
 
         if(root==null){
             return ;
         }
 
-        freq[root.val]++;
+        val = (val^(1<<root.val));
 
-        if(root.left==null && root.right == null){
-            int oddFreq = 0;
-            for(int num : freq){
-                if(num%2 !=0){
-                    oddFreq++;
-                }
-            }
-
-            if(oddFreq<=1){
-                count++;
-            }
+        if(root.left==null && root.right == null){ // leaf node 
+          
+          if((val & (val-1)) == 0){  // checking only one set bit is present that means it is power of 2 
+            count++;
+          }
         }
 
-        solve(root.left, freq);
-        solve(root.right, freq);
+        solve(root.left,val);
+        solve(root.right,val);
 
-        freq[root.val]--;
+       
     }
 }
