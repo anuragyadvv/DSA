@@ -14,23 +14,25 @@
  * }
  */
 class Solution {
+
+    private int moves ;
     public int distributeCoins(TreeNode root) {
 
-        int moves[] = new int[1];
-        solve(root, moves);
+        moves =0;
+        solve(root);
 
-        return moves[0];
+        return moves;
         
     }
 
-    public int solve(TreeNode root, int moves[]){
+    public int solve(TreeNode root){
 
         if(root==null) return 0;
 
-        int l = solve(root.left,moves);
-        int r = solve(root.right,moves);
+        int l = solve(root.left);
+        int r = solve(root.right);
 
-        moves[0] += Math.abs(l) + Math.abs(r);
+        moves += Math.abs(l) + Math.abs(r);
 
         return l+r+root.val-1;
     }
