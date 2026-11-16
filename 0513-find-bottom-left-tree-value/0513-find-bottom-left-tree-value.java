@@ -14,37 +14,30 @@
  * }
  */
 class Solution {
+    // Approach -2 (using DFS)
+
+    int maxDepth = 0 ;
+    int bottomLeft ;
     public int findBottomLeftValue(TreeNode root) {
 
-        // Approach 1 (using level order traversal )
-        int result = -1;
-        Queue<TreeNode> q = new LinkedList<>();
+        bottomLeft = root.val;
 
-        q.add(root);
+        dfs(root, 0);
 
-        while(!q.isEmpty()){
-            int n = q.size();
+        return bottomLeft;
+        
+    }
 
-            result = q.peek().val;
+    public void dfs(TreeNode root, int currDepth){
 
-            while(n-- >0){
-                TreeNode node = q.poll();
-               
+        if(root==null) return;
 
-                if(node.left != null ){
-                    q.add(node.left);
-                }
-
-                if(node.right != null){
-                    q.add(node.right);
-                }
-
-
-            }
+        if(currDepth>maxDepth){
+            maxDepth = currDepth;
+            bottomLeft = root.val;
         }
 
-        return result;
-
-        
+        dfs(root.left, currDepth+1);
+        dfs(root.right, currDepth+1);
     }
 }
