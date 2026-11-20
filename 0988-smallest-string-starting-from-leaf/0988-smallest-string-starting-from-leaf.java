@@ -1,56 +1,49 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    String result ="";
-    public String smallestFromLeaf(TreeNode root) {
 
-        StringBuilder sb = new StringBuilder();
-        solve(root, sb);
+    // Approach -2 (using BFS) done with DFS 
+    // Custom Pair class to hold the node and its leaf-to-root path string
+    static class Pair {
+        TreeNode node;
+        String path;
 
-        return result;
-        
+        Pair(TreeNode node, String path) {
+            this.node = node;
+            this.path = path;
+        }
     }
 
-    public void solve(TreeNode root, StringBuilder sb){
-        if(root == null){
-            return;
+    public String smallestFromLeaf(TreeNode root) {
+        if (root == null) {
+            return "";
         }
 
-        sb.append((char)('a' + root.val));
+        String result = "";
+        Queue<Pair> q = new LinkedList<>();
+        
+        // Start with the root character
+        q.add(new Pair(root, String.valueOf((char) ('a' + root.val))));
 
+        while (!q.isEmpty()) {
+            Pair curr = q.poll();
+            TreeNode node = curr.node;
+            String path = curr.path;
 
-
-        if(root.left == null && root.right == null){
-
-            sb.reverse(); // reverse it so it becom leaf to root path 
-            if(result.length()==0){
-                result = sb.toString();
-            }else{
-                if(result.compareTo(sb.toString())>0){
-                    result = sb.toString();
+            // If it's a leaf node, compare with the smallest string found so far
+            if (node.left == null && node.right == null) {
+                if (result.isEmpty() || result.compareTo(path) > 0) {
+                    result = path;
                 }
             }
 
-            sb.reverse(); // Restore root-to-leaf order for backtracking!
+            // Prepend the child's character so the string stays in leaf-to-root order
+            if (node.left != null) {
+                q.add(new Pair(node.left, (char) ('a' + node.left.val) + path));
+            }
+            if (node.right != null) {
+                q.add(new Pair(node.right, (char) ('a' + node.right.val) + path));
+            }
         }
-        
 
-        solve(root.left, sb);
-        solve(root.right,sb);
-
-        sb.deleteCharAt(sb.length()-1);
+        return result;
     }
 }
