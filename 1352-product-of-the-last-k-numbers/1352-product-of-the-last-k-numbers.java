@@ -1,6 +1,6 @@
 class ProductOfNumbers {
 
-    ArrayList<Integer> nums;
+    ArrayList<Integer> nums; // cumulative prod store karenge 
     int n;
 
     public ProductOfNumbers() {
@@ -11,19 +11,31 @@ class ProductOfNumbers {
     }
     
     public void add(int num) {
-        nums.add(num);
+       if(num == 0){
+        nums = new ArrayList<>();
+        n =0; 
+       }
+
+       else{
+        if(nums.isEmpty()){
+            nums.add(num);   
+        }else{
+            nums.add(nums.get(n-1)*num);
+        }
+        n++;  // increasing size by 1 
+
+       }
         
     }
     
     public int getProduct(int k) {
-         int prod = 1;
-         int n = nums.size();
+        if(k>n){
+            return 0;
+        }
 
-         for(int i = n-k; i<n; i++){
-            prod *= nums.get(i);
-         }
+        if(k==n) return nums.get(n-1);
 
-         return prod;
+        return nums.get(n-1)/nums.get(n-k-1);
 
     }
 }
